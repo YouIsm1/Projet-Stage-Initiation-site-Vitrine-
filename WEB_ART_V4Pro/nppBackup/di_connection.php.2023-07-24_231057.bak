@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+		*{
+			margin: 10px;
+		}
+		.para_err{
+            background-color: #ffd6cc;
+            color: #ff3300;
+            padding: 5px;
+            margin: 10px auto;
+             border-radius: 10px
+        }	  
+    </style>
+  </head>
+  <body>
+
+    <div class="">
+      <form class="" action="admin_v2.php" method="post" enctype="multipart/form-data">
+        profile : <input type="file" name="img" value=""><br>
+        username : <input type="text" name="username" value=""><br>
+		<?php if(isset($_GET["err"])){ ?>
+			<p class="para_err"> <?php echo $_GET["err"] ; ?> </p>
+		<?php } ?>
+        email : <input type="email" name="email" value=""><br>
+		<?php if(isset($_GET["err"])){ ?>
+			<p class="para_err"> <?php echo $_GET["err"] ; ?> </p>
+		<?php } ?>
+        password : <input type="password" name="password" value=""><br>
+		<?php if(isset($_GET["err"])){ ?>
+			<p class="para_err"> <?php echo $_GET["err"] ; ?> </p>
+		<?php } ?>
+        age : <input type="number" name="age" value=""><br>
+        location : <input type="text" name="location" value=""><br>
+        <input type="submit" name="sbt" value="submit"><br>
+      </form>
+    </div>
+
+  </body>
+</html>

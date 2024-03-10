@@ -1,0 +1,68 @@
+<?php
+
+    include "db_conn.php";
+
+    if (isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["email"]) && isset($_FILES["img"])){
+
+        // Display the content of the $_POST array for debugging purposes
+
+        echo "<pre>";
+          print_r($_POST);
+        echo "</pre>";
+
+        echo "<pre>";
+          print_r($_FILES);
+        echo "</pre>";
+
+
+        $the_username = $_POST["username"];
+        $the_email = $_POST["email"];
+        $the_password = $_POST["password"];
+        $the_age = $_POST["age"];
+        $the_location = $_POST["location"];
+
+        // Récupération des informations sur l'image
+       /*  $img_name = $_FILES["img"]["name"];
+        $img_type = $_FILES["img"]["type"];
+        $img_size = $_FILES["img"]["size"];
+        $img_data = addslashes(file_get_contents($_FILES["img"]["tmp_name"])); */
+		
+		if(empty($_FILES["img"])){
+			// Récupération des informations sur l'image
+			$img_name = $_FILES["img"]["name"];
+			$img_type = $_FILES["img"]["type"];
+			$img_size = $_FILES["img"]["size"];
+			$img_data = addslashes(file_get_contents($_FILES["img"]["tmp_name"]));
+		}
+		
+		if(empty($the_username) || strlen($the_username) < 5){
+			header("location: page_connection.php?err=the username is required and should large more then 5 chars.");
+			exit();
+		}elseif(empty($the_email) || strpos($the_email, "@") === false || strpos($the_email, ".") === false){
+			header("location: page_connection.php?err=the email is required and should valid email puisque should include '@' , '.' .");
+			exit();
+		}elseif(empty($the_password) || strlen($the_password) <= 8){
+			header("location: page_connection.php?err=the password is required and should more then 8 chars.");
+			exit();
+		}else{
+			
+			// Préparation et exécution de la requête
+			$query = "INSERT INTO user (username, email, password, age, location, img_data, img_name, img_type, img_size) VALUES ('$the_username','$the_email','$the_password','$the_age','$the_location','$img_data', '$img_name', '$img_type', '$img_size')";
+
+			if (mysqli_query($conn, $query)) {
+				echo "L'image a été enregistrée avec succès dans la base de données.";
+			} else {
+				echo "Erreur lors de l'enregistrement de l'image : " . mysqli_error($conn);
+			}
+			
+		}
+
+
+		mysqli_close($conn);
+
+
+    }else {
+      header("location: page_connection.php?err=we have an error!");
+      exit();
+    }
+ ?>
